@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PMI Kota Malang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="icon"
+      href="https://upload.wikimedia.org/wikipedia/commons/4/4d/Palang_Merah_Indonesia_Logo.svg"
+    />
+    <style>
+      /* Optional: Add a simple transition for the loading screen fade out */
+      #initial-loading-screen {
+        transition: opacity 0.5s ease-in-out;
+      }
+      #initial-loading-screen.hidden {
+        opacity: 0;
+        pointer-events: none; /* Prevent interaction with hidden element */
+      }
+      /* Ensure hidden elements are not displayed */
+      .hidden {
+        display: none;
+      }
+      /* Center content vertically and horizontally when needed */
+      .flex-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50 text-gray-800 font-sans flex flex-col items-center justify-center min-h-screen"
+  >
+    <!-- Loading Screen Overlay (Visible by default) -->
+    <div
+      id="initial-loading-screen"
+      class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
+    >
+      <div class="text-center">
+        <!-- Loading Spinner -->
+        <div
+          class="w-12 h-12 border-4 border-white border-t-transparent border-solid rounded-full animate-spin mx-auto mb-4"
+        ></div>
+        <p class="text-white text-lg">Memuat Website...</p>
+      </div>
+    </div>
+
+    <!-- Login Content (Hidden by default) -->
+    <div
+      id="login-content"
+      class="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg hidden"
+    >
+      <div class="flex justify-center mb-6">
+        <img
+          src="profilpmi.png"
+          alt="Logo PMI"
+          class="w-20 h-20 bg-red-700 p-2 rounded-full"
+        />
+      </div>
+      <h2 class="text-2xl font-bold text-center text-red-700 mb-6">
+        Login PMI Kota Malang
+      </h2>
+
+      <form id="loginForm" action="/login" method="POST" class="space-y-6">
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700"
+            >Username</label
+          >
+          <input
+            type="text"
+            id="username"
+            name="username"
+            required
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500"
+          />
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700"
+            >Password</label
+          >
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500"
+          />
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+          >
+            Masuk
+          </button>
+        </div>
+      </form>
+
+      <div class="mt-6 text-center">
+        <a href="#" class="text-sm text-red-600 hover:text-red-500"
+          >Lupa Kata Sandi?</a
+        >
+      </div>
+    </div>
+
+    <!-- Main Content (Original PMI Form Content - Hidden by default) -->
+    <div id="main-content" class="w-full hidden">
+      <!-- Header -->
+      <header class="bg-red-700 text-white p-6 shadow w-full">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <img
+              src="profilpmi.png"
+              alt="Logo PMI"
+              class="w-12 h-12 bg-white p-1 rounded-full"
+            />
+            <div>
+              <h1 class="text-2xl font-bold">PMI Kota Malang</h1>
+              <p class="text-sm">Formulir Respon Cepat</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Form -->
+      <main class="max-w-5xl mx-auto mt-10 bg-white p-8 rounded-2xl shadow-lg">
+        <h2 class="text-xl font-semibold text-red-700 mb-6">
+          Data Penanganan Respon Lapangan
+        </h2>
+
+        <form
+          action="/submit"
+          method="POST"
+          enctype="multipart/form-data"
+          class="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
+          <div>
+            <label class="block font-medium">Jenis Respon</label>
+            <input
+              class="w-full mt-1 p-2 border rounded-lg"
+              name="jenis_respon"
+              placeholder="Kecelakaan, Bencana, dll"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block font-medium">Lokasi Kejadian</label>
+            <input
+              class="w-full mt-1 p-2 border rounded-lg"
+              name="lokasi"
+              placeholder="Contoh: Jl. Merdeka No.1"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block font-medium">Sumber Informasi</label>
+            <input
+              class="w-full mt-1 p-2 border rounded-lg"
+              name="sumber_informasi"
+              placeholder="Nama atau Lembaga Pelapor"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block font-medium">Waktu Kejadian</label>
+            <input
+              class="w-full mt-1 p-2 border rounded-lg"
+              type="datetime-local"
+              name="waktu"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block font-medium">Nama Petugas</label>
+            <input
+              class="w-full mt-1 p-2 border rounded-lg"
+              name="nama_petugas"
+              placeholder="Petugas Lapangan"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block font-medium">Data Korban</label>
+            <textarea
+              class="w-full mt-1 p-2 border rounded-lg"
+              name="data_korban"
+              placeholder="Nama, umur, kondisi"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block font-medium">Pemeriksaan Vital Sign</label>
+            <textarea
+              class="w-full mt-1 p-2 border rounded-lg"
+              name="pemeriksaan_vital"
+              placeholder="Tekanan darah, suhu, nadi, dll"
+              rows="2"
+            ></textarea>
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block font-medium">Tindak Lanjut</label>
+            <textarea
+              class="w-full mt-1 p-2 border rounded-lg"
+              name="tindak_lanjut"
+              rows="2"
+              placeholder="Tindakan lanjutan, rujukan, dll"
+            ></textarea>
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block font-medium">Barang Habis Pakai</label>
+            <textarea
+              class="w-full mt-1 p-2 border rounded-lg"
+              name="barang_habis_pakai"
+              placeholder="Contoh: Perban, sarung tangan"
+              rows="2"
+            ></textarea>
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block font-medium">Dokumentasi (Foto/Video)</label>
+            <input
+              class="w-full mt-1 p-2 border rounded-lg"
+              type="file"
+              name="dokumentasi"
+              accept="image/*,video/*"
+            />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block font-medium">Saksi & Barang Bukti</label>
+            <textarea
+              class="w-full mt-1 p-2 border rounded-lg"
+              name="saksi_barang_bukti"
+              placeholder="Keterangan saksi dan barang terkait"
+              rows="2"
+            ></textarea>
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block font-medium">Kendala di Lapangan</label>
+            <textarea
+              class="w-full mt-1 p-2 border rounded-lg"
+              name="kendala"
+              placeholder="Cuaca, akses lokasi, dll"
+              rows="2"
+            ></textarea>
+          </div>
+
+          <div class="md:col-span-2 text-right">
+            <button
+              type="submit"
+              class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition"
+            >
+              Kirim Data
+            </button>
+          </div>
+        </form>
+      </main>
+
+      <!-- Footer -->
+      <footer class="text-center text-sm text-gray-600 mt-10 py-6 w-full">
+        <div class="max-w-4xl mx-auto space-y-2">
+          <div>
+            📞 Kontak:
+            <a href="tel:+6281234567890" class="text-red-700 hover:underline"
+              >+62 812 3456 7890</a
+            >
+          </div>
+          <div>
+            📷 Instagram:
+            <a
+              href="https://instagram.com/palangmerah_indonesia"
+              target="_blank"
+              class="text-red-700 hover:underline"
+              >@palangmerah_indonesia</a
+            >
+          </div>
+          <div>© 2025 Palang Merah Indonesia</div>
+        </div>
+      </footer>
+    </div>
+    <!-- End of #main-content -->
+
+    <script>
+      // Menunggu hingga seluruh halaman dan semua aset (gambar, dll.) selesai dimuat
+      window.addEventListener("load", function () {
+        const loadingScreen = document.getElementById("initial-loading-screen");
+        const loginContent = document.getElementById("login-content"); // Get login content div
+
+        if (loadingScreen && loginContent) {
+          // Tambahkan kelas 'hidden' ke loading screen untuk menyembunyikannya
+          loadingScreen.classList.add("hidden");
+
+          // Hapus kelas 'hidden' dari konten login untuk menampilkannya
+          loginContent.classList.remove("hidden");
+
+          // Opsional: Hapus elemen loading screen dari DOM setelah transisi selesai
+          loadingScreen.addEventListener("transitionend", function () {
+            loadingScreen.remove();
+          });
+        }
+      });
+
+      // Script untuk menangani submit form login
+      document.addEventListener("DOMContentLoaded", function () {
+        const loginForm = document.getElementById("loginForm"); // Mendapatkan elemen form login
+        const loginContent = document.getElementById("login-content"); // Get login content div
+        const mainContent = document.getElementById("main-content"); // Get main content div
+
+        if (loginForm && loginContent && mainContent) {
+          loginForm.addEventListener("submit", function (event) {
+            // Mencegah form melakukan submit default
+            event.preventDefault();
+
+            // Ambil nilai dari input username dan password
+            const usernameInput = document.getElementById("username");
+            const passwordInput = document.getElementById("password");
+
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+
+            console.log("Username:", username);
+            console.log("Password:", password);
+
+            // --- Tambahkan logika validasi atau pengiriman data ke server di sini ---
+            // Contoh: Validasi sederhana
+            if (username === "" || password === "") {
+              alert("Nama pengguna/email dan kata sandi tidak boleh kosong!");
+              // Jangan lanjutkan proses jika validasi gagal
+              return;
+            }
+
+            // --- Placeholder Login Logic (Simulasi) ---
+            // Di aplikasi nyata, Anda akan mengirim data ke server (misalnya dengan fetch)
+            // dan menunggu respons untuk menentukan apakah login berhasil.
+            // Jika berhasil, sembunyikan login dan tampilkan konten utama.
+
+            console.log("Simulating login process...");
+
+            // Contoh simulasi login berhasil setelah penundaan 1 detik
+            // GANTI ini dengan panggilan fetch() ke backend Anda
+            setTimeout(() => {
+              console.log("Simulating successful login. Showing main content.");
+              loginContent.classList.add("hidden"); // Sembunyikan konten login
+              mainContent.classList.remove("hidden"); // Tampilkan konten utama
+              // Opsional: Arahkan scroll ke atas halaman utama jika perlu
+              // window.scrollTo(0, 0);
+            }, 1000); // Penundaan 1 detik untuk simulasi
+
+            // --- Akhir Placeholder Login Logic ---
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
